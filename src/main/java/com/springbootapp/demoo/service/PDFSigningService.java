@@ -48,7 +48,6 @@ public class PDFSigningService {
     public byte[] signPDF(MultipartFile pdfFile, String signerName) throws Exception {
         logger.info("Starting PDF signing process for file: {}", pdfFile.getOriginalFilename());
 
-        // Save file to local storage
         Path tempFile = fileUtil.saveFile(pdfFile.getBytes(), pdfFile.getOriginalFilename());
         logger.info("File saved to temporary storage: {}", tempFile.toString());
 
@@ -82,7 +81,7 @@ public class PDFSigningService {
             PdfSignatureAppearance appearance = signer.getSignatureAppearance()
                     .setReason("Document signed by " + signerName)
                     .setLocation("Location")
-                    .setPageRect(new Rectangle(pageWidth - 200 - 36, 10, 250, 50))  // Adjust height and width to fit both name and image
+                    .setPageRect(new Rectangle(pageWidth - 200 - 36, 10, 250, 50))
                     .setPageNumber(1);
             logger.info("Signature appearance created.");
 
@@ -100,7 +99,7 @@ public class PDFSigningService {
 
             // Add signature image
             Image signatureImage = new Image(ImageDataFactory.create("C:/Users/User/Downloads/signature.png"));
-            signatureImage.scaleToFit(100, 100);  // Adjust size as needed
+            signatureImage.scaleToFit(100, 100);
             signatureImage.setFixedPosition(160, 25);
             canvas.add(signatureImage);
             canvas.close();

@@ -35,7 +35,6 @@ public class PDFSignController {
             @RequestParam("fullName") String fullName,
             @RequestParam("email") String email) throws Exception {
 
-        // Validate input
         logger.info("Validating input for file: {} and email: {}", file.getOriginalFilename(), email);
 
         if (!file.getOriginalFilename().endsWith(".pdf")) {
@@ -48,10 +47,8 @@ public class PDFSignController {
             throw new IllegalArgumentException("Invalid email format.");
         }
 
-        // Call the signing service
         byte[] signedPdf = pdfSigningService.signPDF(file, fullName);
 
-        // Prepare the response
         HttpHeaders headers = new HttpHeaders();
         headers.setContentDisposition(ContentDisposition.builder("attachment")
                 .filename("signed-document.pdf").build());
@@ -65,5 +62,4 @@ public class PDFSignController {
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(resource);
     }
-
 }
